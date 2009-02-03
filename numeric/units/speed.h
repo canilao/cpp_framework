@@ -21,10 +21,10 @@
 #include "unit.h"
 
 // This defines how many coredata units makes one millimeter/second.
-#define CORE_UNITS_TO_MM_PER_SECOND (254000L)
+#define CORE_UNITS_TO_MM_PER_SECOND (1.0L/25.4L)
 
 // This defines how many coredata units makes one inches/second.
-#define CORE_UNITS_TO_INCH_PER_SECOND (1000L)
+#define CORE_UNITS_TO_INCH_PER_SECOND (1.0L)
 
 // The number of decimal points needed to represent the core unit accurately.
 #define SPEED_PRECISION 8u
