@@ -20,22 +20,58 @@
 
 namespace numeric
 {
-// Map of values to counts.
+/*******************************************************************************
+
+    \brief  Map of values to counts. 
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
 typedef std::map<int, int> TValueMap;
 
-// A set of unique values that are retrieve from a TValueMap.
+/*******************************************************************************
+
+    \brief  A set of unique values that are retrieve from a TValueMap.
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
 typedef std::set<int> TValues;
 
-// A group of numbers who's sum can represent a range of numbers.
+/*******************************************************************************
+
+    \brief  A group of numbers who's sum can represent a range of numbers.
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
 typedef std::vector<int> TBlock;
 
-// Vector numbers representing a solution to a target number.
+/*******************************************************************************
+
+    \brief  Vector numbers representing a solution to a target number.
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
 typedef std::vector<int> TSolution;
 
-// A group of number groups who's sum can represent a range of numbers.
+/*******************************************************************************
+
+    \brief  A group of number groups who's sum can represent a range of numbers.
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
 typedef std::vector<TBlock> TBlockVector;
 
-// A set of numbers that are to be used to solve a target number.
+/*******************************************************************************
+
+    \brief  A set of numbers that are to be used to solve a target number.
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
 typedef std::vector<int> TDispenser;
 
 /*******************************************************************************
@@ -47,28 +83,37 @@ typedef std::vector<int> TDispenser;
             the target number.
 
 *******************************************************************************/
-class subset_solver
+class subset
 {
 public:
 
-    subset_solver(const TValueMap & values);
+    // Constructor.
+    subset(const TValueMap & values);
 
-    virtual ~subset_solver();
+    // Destructor.
+    virtual ~subset();
 
+    // Gets the range the target should be for the Anilao solver.
     void GetRange(int & low, int & high);
 
+    // Gets the optimum set of numbers a block should be for this set.
     void GetBlockDefinition(TBlock & client_block);
 
+    // Gets the list of whole blocks.
     void GetWholeBlockVector(TBlockVector & client_block);
 
+    // Gets the list of partial blocks.
     void GetPartialBlockVector(TBlockVector & client_block);
 
+    // Uses the generic least number algorithm.
     TSolution LeastNumberSolve(int target);
 
+    // Algorithm which tries to deplete as many numbers as possible.
     TSolution AnilaoSolve(int target);
 
 protected:
 
+    // Initializes the class.
     void Initialize();
 
     // Returns left over.
@@ -79,6 +124,7 @@ protected:
     TBlockVector CalculateWholeBlocks(const TDispenser & original_dispenser,
                                       TDispenser & left_over);
 
+    // Calculates the optimum set of number each block should be.
     TBlock CalculateDefinition(int & low, int & high);
 
 private:
@@ -116,38 +162,87 @@ private:
                        int sum);
 };
 
-inline subset_solver::subset_solver(const TValueMap & values)
+/*******************************************************************************
+
+    \brief  
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
+inline subset::subset(const TValueMap & values)
     :
     value_map(values)
 {
     Initialize();
 }
 
-inline subset_solver::~subset_solver() {}
+/*******************************************************************************
 
-inline void subset_solver::GetRange(int & low, int & high)
+    \brief  
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
+inline subset::~subset() {}
+
+/*******************************************************************************
+
+    \brief  
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
+inline void subset::GetRange(int & low, int & high)
 {
     // Set the values and return.
     low = range_low;
     high = range_high;
 }
 
-inline void subset_solver::GetBlockDefinition(TBlock & client_block)
+/*******************************************************************************
+
+    \brief  
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
+inline void subset::GetBlockDefinition(TBlock & client_block)
 {
     client_block = definition;
 }
 
-inline void subset_solver::GetWholeBlockVector(TBlockVector & client_block)
+/*******************************************************************************
+
+    \brief  
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
+inline void subset::GetWholeBlockVector(TBlockVector & client_block)
 {
     client_block = whole_blocks;
 }
 
-inline void subset_solver::GetPartialBlockVector(TBlockVector & client_block)
+/*******************************************************************************
+
+    \brief  
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
+inline void subset::GetPartialBlockVector(TBlockVector & client_block)
 {
     client_block = partial_blocks;
 }
 
-inline TSolution subset_solver::LeastNumberSolve(int target)
+/*******************************************************************************
+
+    \brief  
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
+inline TSolution subset::LeastNumberSolve(int target)
 {
     // Return vector.
     TSolution ret_vector;
@@ -209,7 +304,14 @@ inline TSolution subset_solver::LeastNumberSolve(int target)
     return ret_vector;
 }
 
-inline TSolution subset_solver::AnilaoSolve(int target)
+/*******************************************************************************
+
+    \brief  
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
+inline TSolution subset::AnilaoSolve(int target)
 {
     // Return value.
     TSolution ret_val;
@@ -280,7 +382,14 @@ inline TSolution subset_solver::AnilaoSolve(int target)
     return ret_val;
 }
 
-inline void subset_solver::Initialize()
+/*******************************************************************************
+
+    \brief  
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
+inline void subset::Initialize()
 {
     // Vector of entries to be removed.
     std::vector<TValueMap::iterator> to_be_removed;
@@ -335,10 +444,16 @@ inline void subset_solver::Initialize()
     partial_blocks = CalculatePartialBlocks(left_over, empty_dispenser);
 }
 
-// Returns left over.
+/*******************************************************************************
+
+    \brief  
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
 inline TBlockVector
-subset_solver::CalculatePartialBlocks(const TDispenser & original_dispenser,
-                                      TDispenser & left_over)
+subset::CalculatePartialBlocks(const TDispenser & original_dispenser,
+                               TDispenser & left_over)
 {
     // Make a copy of the dispenser.
     left_over = original_dispenser;
@@ -394,10 +509,16 @@ subset_solver::CalculatePartialBlocks(const TDispenser & original_dispenser,
     return retVal;
 }
 
-// Returns left over.
+/*******************************************************************************
+
+    \brief  
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
 inline TBlockVector
-subset_solver::CalculateWholeBlocks(const TDispenser & original_dispenser,
-                                    TDispenser & left_over)
+subset::CalculateWholeBlocks(const TDispenser & original_dispenser,
+                             TDispenser & left_over)
 {
     // Make a copy of the dispenser.
     left_over = original_dispenser;
@@ -458,8 +579,15 @@ subset_solver::CalculateWholeBlocks(const TDispenser & original_dispenser,
     return retVal;
 }
 
+/*******************************************************************************
+
+    \brief  
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
 inline TBlock
-subset_solver::CalculateDefinition(int & low, int & high)
+subset::CalculateDefinition(int & low, int & high)
 {
     TBlock local_definition;
 
@@ -526,13 +654,19 @@ subset_solver::CalculateDefinition(int & low, int & high)
     return local_definition;
 }
 
-// Execute a recursive subset solving algorithm.
-inline void subset_solver::SubsetRecurse(TBlock numbers,
-                                         TBlockVector & result,
-                                         int target,
-                                         TSolution & output,
-                                         int index,
-                                         int sum)
+/*******************************************************************************
+
+    \brief  
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
+inline void subset::SubsetRecurse(TBlock numbers,
+                                  TBlockVector & result,
+                                  int target,
+                                  TSolution & output,
+                                  int index,
+                                  int sum)
 {
     if (index == numbers.size())
     {
