@@ -18,7 +18,7 @@
 #include <algorithm>
 #include <exception>
 
-namespace subset
+namespace numeric
 {
 // Map of values to counts.
 typedef std::map<int, int> TValueMap;
@@ -112,8 +112,8 @@ private:
                        TBlockVector & result,
                        int target,
                        TSolution & output,
-                       int index = 0,
-                       int sum = 0);
+                       int index,
+                       int sum);
 };
 
 inline subset_solver::subset_solver(const TValueMap & values)
@@ -217,14 +217,21 @@ inline TSolution subset_solver::AnilaoSolve(int target)
     // Will hold the result.
     TBlockVector result;
 
+    // Recurse function needs a buffer, unused in this scope.
+    TSolution solution_buffer;
+
     // Check the partials first.
     for(size_t i = 0 ; i < partial_blocks.size() ; ++i)
     {
+        SubsetRecurse(partial_blocks[i], result, 0, solution_buffer, 0, 0);
+
         // Allocate the results vector and run the algorithm.
         SubsetRecurse(partial_blocks[i],
                       result,
                       target,
-                      std::vector<int>());
+                      solution_buffer,
+                      0,
+                      0);
 
         // If we find a solution, break out.
         if(result.size() > 0) break;
@@ -239,7 +246,9 @@ inline TSolution subset_solver::AnilaoSolve(int target)
             SubsetRecurse(whole_blocks[0],
                           result,
                           target,
-                          std::vector<int>());
+                          solution_buffer,
+                          0,
+                          0);
         }
     }
 
@@ -520,10 +529,10 @@ subset_solver::CalculateDefinition(int & low, int & high)
 // Execute a recursive subset solving algorithm.
 inline void subset_solver::SubsetRecurse(TBlock numbers,
                                          TBlockVector & result,
-										 int target,
-										 TSolution & output,
-										 int index,
-										 int sum)
+                                         int target,
+                                         TSolution & output,
+                                         int index,
+                                         int sum)
 {
     if (index == numbers.size())
     {
