@@ -8,6 +8,9 @@
 
 *******************************************************************************/
 
+// Include for all subset headers.
+#include "numeric/subset/subset.h"
+
 // Include for all decimal headers.
 #include "numeric/decimal/decimal.h"
 

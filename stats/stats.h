@@ -27,7 +27,7 @@ void CrossCorrelation(const std::vector<double> & f_func,
                       const std::vector<double> & g_func,
                       std::vector<double> & result)
 {
-	int max_size = std::max(f_func.size(), g_func.size());
+	long long max_size = std::max(f_func.size(), g_func.size());
 
     for(int n = 0 ; n < max_size ; ++n)
     {
@@ -53,7 +53,7 @@ void CrossCorrelation(const std::vector<double> & f_func,
 double Correlation(const std::vector<double> & f_func,
                    const std::vector<double> & g_func)
 {
-	int max_size = std::max(f_func.size(), g_func.size());
+	long long max_size = std::max(f_func.size(), g_func.size());
 
     double sumPaired = 0.0;
     for(int n = 0 ; n < max_size ; ++n)
