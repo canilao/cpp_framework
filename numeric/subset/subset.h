@@ -14,6 +14,7 @@
 #include <set>
 #include <map>
 #include <vector>
+#include <numeric>
 #include <algorithm>
 #include <exception>
 
@@ -39,9 +40,9 @@ typedef std::vector<int> TDispenser;
 
 /*******************************************************************************
 
-    \class  Class to solve subsets of groups of numbers. 
+    \class  Class to solve subsets of groups of numbers.
 
-    \brief  Given a group of numbers and a target number, this class will 
+    \brief  Given a group of numbers and a target number, this class will
             calculate what group of subset of numbers summed together can equal
             the target number.
 
@@ -105,6 +106,14 @@ private:
 
     // The vector of partial blocks.
     TBlockVector partial_blocks;
+
+    // Execute a recursive subset solving algorithm.
+    void SubsetRecurse(TBlock numbers,
+                       TBlockVector & result,
+                       int target,
+                       TSolution & output,
+                       int index = 0,
+                       int sum = 0);
 };
 
 inline subset_solver::subset_solver(const TValueMap & values)
@@ -202,44 +211,6 @@ inline TSolution subset_solver::LeastNumberSolve(int target)
 
 inline TSolution subset_solver::AnilaoSolve(int target)
 {
-    // Give the target value, find a solution.
-    class SubsetSolver
-    {
-    public:
-        static void Recurse(std::vector<int> numbers,
-                            std::vector<std::vector<int> > & result,
-                            int target,
-                            std::vector<int> & output,
-                            int index = 0,
-                            int sum = 0)
-        {
-            if (index == numbers.size())
-            {
-                if(accumulate(output.begin(),
-                              output.end(),
-                              (int) 0) == target)
-                {
-                    std::vector<std::vector<int> >::iterator
-                    iter = find(result.begin(), result.end(), output);
-
-                    if(iter == result.end()) result.push_back(output);
-                }
-
-                return;
-            }
-
-            // Include numbers[index]
-            std::vector<int> p1 = output;
-            p1.push_back(numbers[index]);
-
-            Recurse(numbers, result, target, p1, index + 1, sum +
-                    numbers[index]);
-
-            // Exclude numbers[index]
-            Recurse(numbers, result, target, output, index + 1, sum);
-        }
-    };
-
     // Return value.
     TSolution ret_val;
 
@@ -250,8 +221,10 @@ inline TSolution subset_solver::AnilaoSolve(int target)
     for(size_t i = 0 ; i < partial_blocks.size() ; ++i)
     {
         // Allocate the results vector and run the algorithm.
-        SubsetSolver::Recurse(partial_blocks[i], result, target,
-                              std::vector<int>());
+        SubsetRecurse(partial_blocks[i],
+                      result,
+                      target,
+                      std::vector<int>());
 
         // If we find a solution, break out.
         if(result.size() > 0) break;
@@ -263,10 +236,10 @@ inline TSolution subset_solver::AnilaoSolve(int target)
         if(whole_blocks.size() != 0)
         {
             // Allocate the results vector and run the algorithm.
-            SubsetSolver::Recurse(whole_blocks[0],
-                                  result,
-                                  target,
-                                  std::vector<int>());
+            SubsetRecurse(whole_blocks[0],
+                          result,
+                          target,
+                          std::vector<int>());
         }
     }
 
@@ -542,6 +515,40 @@ subset_solver::CalculateDefinition(int & low, int & high)
     }
 
     return local_definition;
+}
+
+// Execute a recursive subset solving algorithm.
+inline void subset_solver::SubsetRecurse(TBlock numbers,
+                                         TBlockVector & result,
+										 int target,
+										 TSolution & output,
+										 int index,
+										 int sum)
+{
+    if (index == numbers.size())
+    {
+        if(accumulate(output.begin(),
+                      output.end(),
+                      (int) 0) == target)
+        {
+            std::vector<std::vector<int> >::iterator
+            iter = find(result.begin(), result.end(), output);
+
+            if(iter == result.end()) result.push_back(output);
+        }
+
+        return;
+    }
+
+    // Include numbers[index]
+    TSolution p1 = output;
+    p1.push_back(numbers[index]);
+
+    SubsetRecurse(numbers, result, target, p1, index + 1, sum +
+                  numbers[index]);
+
+    // Exclude numbers[index]
+    SubsetRecurse(numbers, result, target, output, index + 1, sum);
 }
 }
 

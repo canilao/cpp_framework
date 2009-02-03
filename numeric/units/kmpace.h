@@ -13,6 +13,7 @@
 
 // Standard Library Dependancies.
 #include <string>
+#include <sstream>
 
 // General Dependancies.
 #include "time.h"
@@ -106,10 +107,14 @@ inline std::string kmpace::ToString()
     seconds totalSeconds = (*this) - minutes(static_cast<int>(totalMinutes));
 
     // Calculate our string.
-    sprintf(charBuff, "%02d:%02d", (int) totalMinutes, (int) totalSeconds);
-    std::string retStr(charBuff);
+    std::ostringstream localstream;
 
-    return retStr;
+    localstream << std::setw(2) << std::setfill('0');
+    localstream << (int) totalMinutes << ':';
+    localstream << std::setw(2) << std::setfill('0');
+    localstream << (int) totalSeconds; 
+
+    return localstream.str();
 }
 }
 
