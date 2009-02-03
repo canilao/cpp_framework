@@ -85,6 +85,32 @@ typedef std::vector<int> TDispenser;
 *******************************************************************************/
 class subset
 {
+private:
+
+    // Given the values and the counts, this represents the optimum number set.
+    TBlock definition;
+
+    // Low number representable by the definition.
+    int range_low;
+
+    // High number representable by the definition.
+    int range_high;
+
+    // The values of the number set.
+    TValues values;
+
+    // The dispenser that holds all of the numbers.
+    TDispenser master_dispenser;
+
+    // Maps the value to the count.
+    TValueMap value_map;
+
+    // The vector of whole blocks.
+    TBlockVector whole_blocks;
+
+    // The vector of partial blocks.
+    TBlockVector partial_blocks;
+
 public:
 
     // Constructor.
@@ -128,30 +154,6 @@ protected:
     TBlock CalculateDefinition(int & low, int & high);
 
 private:
-
-    // Given the values and the counts, this represents the optimum number set.
-    TBlock definition;
-
-    // Low number representable by the definition.
-    int range_low;
-
-    // High number representable by the definition.
-    int range_high;
-
-    // The values of the number set.
-    TValues values;
-
-    // The dispenser that holds all of the numbers.
-    TDispenser master_dispenser;
-
-    // Maps the value to the count.
-    TValueMap value_map;
-
-    // The vector of whole blocks.
-    TBlockVector whole_blocks;
-
-    // The vector of partial blocks.
-    TBlockVector partial_blocks;
 
     // Execute a recursive subset solving algorithm.
     void SubsetRecurse(TBlock numbers,
