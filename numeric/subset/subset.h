@@ -22,7 +22,7 @@ namespace numeric
 {
 /*******************************************************************************
 
-    \brief  Map of values to counts. 
+    \brief  Map of values to counts.
 
     \note   C Anilao 02/03/2009 Created.
 
@@ -132,9 +132,9 @@ public:
     void GetPartialBlockVector(TBlockVector & client_block);
 
     // Uses the generic least number algorithm.
-    TSolution LeastNumberSolve(int target);
+    TSolution LeastSolve(int target);
 
-    // Algorithm which tries to deplete as many numbers as possible.
+    // Algorithm which tries to deplete the values as even as possible.
     TSolution AnilaoSolve(int target);
 
 protected:
@@ -166,7 +166,7 @@ private:
 
 /*******************************************************************************
 
-    \brief  
+    \brief
 
     \note   C Anilao 02/03/2009 Created.
 
@@ -180,7 +180,7 @@ inline subset::subset(const TValueMap & values)
 
 /*******************************************************************************
 
-    \brief  
+    \brief
 
     \note   C Anilao 02/03/2009 Created.
 
@@ -189,7 +189,7 @@ inline subset::~subset() {}
 
 /*******************************************************************************
 
-    \brief  
+    \brief
 
     \note   C Anilao 02/03/2009 Created.
 
@@ -203,7 +203,7 @@ inline void subset::GetRange(int & low, int & high)
 
 /*******************************************************************************
 
-    \brief  
+    \brief
 
     \note   C Anilao 02/03/2009 Created.
 
@@ -215,7 +215,7 @@ inline void subset::GetBlockDefinition(TBlock & client_block)
 
 /*******************************************************************************
 
-    \brief  
+    \brief
 
     \note   C Anilao 02/03/2009 Created.
 
@@ -227,7 +227,7 @@ inline void subset::GetWholeBlockVector(TBlockVector & client_block)
 
 /*******************************************************************************
 
-    \brief  
+    \brief
 
     \note   C Anilao 02/03/2009 Created.
 
@@ -239,12 +239,12 @@ inline void subset::GetPartialBlockVector(TBlockVector & client_block)
 
 /*******************************************************************************
 
-    \brief  
+    \brief
 
     \note   C Anilao 02/03/2009 Created.
 
 *******************************************************************************/
-inline TSolution subset::LeastNumberSolve(int target)
+inline TSolution subset::LeastSolve(int target)
 {
     // Return vector.
     TSolution ret_vector;
@@ -308,7 +308,7 @@ inline TSolution subset::LeastNumberSolve(int target)
 
 /*******************************************************************************
 
-    \brief  
+    \brief
 
     \note   C Anilao 02/03/2009 Created.
 
@@ -327,8 +327,6 @@ inline TSolution subset::AnilaoSolve(int target)
     // Check the partials first.
     for(size_t i = 0 ; i < partial_blocks.size() ; ++i)
     {
-        SubsetRecurse(partial_blocks[i], result, 0, solution_buffer, 0, 0);
-
         // Allocate the results vector and run the algorithm.
         SubsetRecurse(partial_blocks[i],
                       result,
@@ -365,20 +363,20 @@ inline TSolution subset::AnilaoSolve(int target)
             sizes[i] = result[i].size();
         }
 
-        // Find the largest and use it.
-        std::map<size_t, size_t>::iterator largest_iter = sizes.begin();
+        // Find the smallest and use it.
+        std::map<size_t, size_t>::iterator smallest_iter = sizes.begin();
         for(std::map<size_t, size_t>::iterator iter = sizes.begin() ;
             iter != sizes.end() ;
             ++iter)
         {
-            if(iter->second > largest_iter->second)
+            if(iter->second < smallest_iter->second)
             {
-                largest_iter = iter;
+                smallest_iter = iter;
             }
         }
 
         // We have found the largest.
-        ret_val = result[largest_iter->first];
+        ret_val = result[smallest_iter->first];
     }
 
     return ret_val;
@@ -386,7 +384,7 @@ inline TSolution subset::AnilaoSolve(int target)
 
 /*******************************************************************************
 
-    \brief  
+    \brief
 
     \note   C Anilao 02/03/2009 Created.
 
@@ -448,7 +446,7 @@ inline void subset::Initialize()
 
 /*******************************************************************************
 
-    \brief  
+    \brief
 
     \note   C Anilao 02/03/2009 Created.
 
@@ -513,7 +511,7 @@ subset::CalculatePartialBlocks(const TDispenser & original_dispenser,
 
 /*******************************************************************************
 
-    \brief  
+    \brief
 
     \note   C Anilao 02/03/2009 Created.
 
@@ -583,7 +581,7 @@ subset::CalculateWholeBlocks(const TDispenser & original_dispenser,
 
 /*******************************************************************************
 
-    \brief  
+    \brief
 
     \note   C Anilao 02/03/2009 Created.
 
@@ -658,7 +656,7 @@ subset::CalculateDefinition(int & low, int & high)
 
 /*******************************************************************************
 
-    \brief  
+    \brief
 
     \note   C Anilao 02/03/2009 Created.
 
