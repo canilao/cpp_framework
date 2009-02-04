@@ -346,7 +346,7 @@ subset::LeastSolveOnDispenser(int target, const TDispenser & dispenser) const
 	try
 	{ 
 		subset local(value_map);
-		local.LeastSolve(target); 
+		ret_solution = local.LeastSolve(target); 
 	} 
 	catch(...) {}
 
