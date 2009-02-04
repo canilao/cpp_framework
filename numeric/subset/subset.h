@@ -142,6 +142,10 @@ protected:
     // Initializes the class.
     void Initialize();
 
+    // Solve with least algorithm, but only on the given dispenser.
+    TSolution LeastSolveOnDispenser(int target, 
+                                    const TDispenser & dispenser) const;
+
     // Returns left over.
     TBlockVector CalculatePartialBlocks(const TDispenser & original_dispenser,
                                         TDispenser & left_over);
@@ -313,6 +317,50 @@ inline TSolution subset::LeastSolve(int target)
     \note   C Anilao 02/03/2009 Created.
 
 *******************************************************************************/
+inline TSolution  
+subset::LeastSolveOnDispenser(int target, const TDispenser & dispenser) const
+{
+    TValues values;
+
+    // Use a set to get the unique value from the dispenser.
+    for(size_t i = 0 ; i < dispenser.size() ; ++i)
+    {
+        values.insert(dispenser[i]);
+    }
+
+    TValueMap value_map;
+
+    // We have the unique values from the dispenser, count them and add to 
+    // value map.
+    for(TValues::iterator iter = values.begin() ; 
+        iter != values.end() ; 
+        ++iter)
+    {
+        ptrdiff_t val_count = count(dispenser.begin(), dispenser.end(), *iter);
+        value_map[*iter] = (int) val_count;
+    }
+
+    // Create a subset class and use LeastSolve().
+	TSolution ret_solution;
+  
+	try
+	{ 
+		subset local(value_map);
+		local.LeastSolve(target); 
+	} 
+	catch(...) {}
+
+    // Return the solution.
+    return ret_solution;
+}
+
+/*******************************************************************************
+
+    \brief
+
+    \note   C Anilao 02/03/2009 Created.
+
+*******************************************************************************/
 inline TSolution subset::AnilaoSolve(int target)
 {
     // Return value.
@@ -324,20 +372,13 @@ inline TSolution subset::AnilaoSolve(int target)
     // Recurse function needs a buffer, unused in this scope.
     TSolution solution_buffer;
 
-    // Check the partials first.
-    for(size_t i = 0 ; i < partial_blocks.size() ; ++i)
-    {
-        // Allocate the results vector and run the algorithm.
-        SubsetRecurse(partial_blocks[i],
-                      result,
-                      target,
-                      solution_buffer,
-                      0,
-                      0);
+    // Check partials first. Use GetWholeBlockVector() to get partial dispenser.
+    TDispenser partial_dispenser;
+    CalculateWholeBlocks(master_dispenser, partial_dispenser);
+    TSolution least_solution = LeastSolveOnDispenser(target, partial_dispenser);
 
-        // If we find a solution, break out.
-        if(result.size() > 0) break;
-    }
+    // Add the solution to the result if there was one. 
+    if(!least_solution.empty()) result.push_back(least_solution);
 
     if(result.size() == 0)
     {
