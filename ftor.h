@@ -9,6 +9,7 @@
 *******************************************************************************/ 
 
 // Include for all ftor headers.
+#include "ftor/property.h"
 #include "ftor/i_function.h"
 #include "ftor/unary_function.h"
 #include "ftor/binary_function.h"
