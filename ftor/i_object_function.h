@@ -1,16 +1,12 @@
-/*******************************************************************************
- *
- *  \file
- *   i_object_function.h
- *
- *  \brief
- *   Header file for the interface class for all object function containers.
- *
- *  \note
- *   C Anilao       11/26/2008
- *   Created
- *
- ******************************************************************************/
+/******************************************************************************/
+// 
+/*! \file   i_object_function.h
+ 
+    \brief  Header file for the interface class for all object function containers.
+ 
+    \note   C Anilao    11/26/2008  Created
+ 
+*******************************************************************************/
 
 #ifndef I_OBJECT_FUNCTION_H
 #define I_OBJECT_FUNCTION_H
@@ -19,29 +15,25 @@
 #include <vector>
 #include <algorithm>
 
-/*******************************************************************************
- *
- *  \namespace
- *   Ftor
- *
- *  \brief
- *   Namespace containing the object function library.
- *
- ******************************************************************************/
+/******************************************************************************/
+// 
+/*! \namespace  Ftor
+ 
+    \brief  Namespace containing the object function library.
+ 
+*******************************************************************************/
 namespace Ftor
 {
 // Forward class declarations.
 class ObjectFunctionOwner;
 
-/*******************************************************************************
- *
- *  \class
- *   IObjectFunction
- *
- *  \brief
- *   Abstract interface for all object functions.
- *
- ******************************************************************************/
+/******************************************************************************/
+// 
+/*! \class  IObjectFunction
+ 
+    \brief  Abstract interface for all object functions.
+ 
+*******************************************************************************/
 class IObjectFunction
 {
 // ObjectFunctionOwner needs to operate on protected functions.
@@ -81,13 +73,13 @@ private:
     ObjectFunctionOwner * pOwner;
 };
 
-/*******************************************************************************
- *
- *  \class
- *
- *  \brief
- *
- ******************************************************************************/
+/******************************************************************************/
+//
+/*! \class
+ 
+    \brief
+ 
+*******************************************************************************/
 class ObjectFunctionOwner
 {
 // IObject needs to operate on protected functions.
@@ -125,13 +117,13 @@ private:
     std::vector<IObjectFunction *> functionObjVector;
 };
 
-/*******************************************************************************
- *
- *  \brief
- *
- *  \history
- *
- ******************************************************************************/
+/******************************************************************************/
+//
+/*! \brief
+ 
+    \history
+ 
+*******************************************************************************/
 inline IObjectFunction::IObjectFunction(ObjectFunctionOwner * pNewOwner) :
 
     pOwner(pNewOwner)
@@ -139,26 +131,26 @@ inline IObjectFunction::IObjectFunction(ObjectFunctionOwner * pNewOwner) :
     pOwner->AddFunctionObject(this);
 }
 
-/*******************************************************************************
- *
- *  \brief
- *
- *  \history
- *
- ******************************************************************************/
+/******************************************************************************/
+//
+/*! \brief
+ 
+    \history
+ 
+*******************************************************************************/
 inline IObjectFunction::IObjectFunction(const IObjectFunction & origObj) :
     pOwner(origObj.pOwner)
 {
     pOwner->AddFunctionObject(this);
 }
 
-/*******************************************************************************
- *
- *  \brief
- *
- *  \history
- *
- ******************************************************************************/
+/******************************************************************************/
+//
+/*! \brief
+ 
+    \history
+ 
+*******************************************************************************/
 inline void IObjectFunction::InvalidateInOwner()
 {
     // If we are valid, then we do not have to tell the owner we are deleting.
@@ -169,13 +161,13 @@ inline void IObjectFunction::InvalidateInOwner()
     }
 }
 
-/*******************************************************************************
- *
- *  \brief
- *
- *  \history
- *
- ******************************************************************************/
+/******************************************************************************/
+//
+/*! \brief
+ 
+    \history
+ 
+*******************************************************************************/
 inline
 void IObjectFunction::CopyData(const IObjectFunction * pOrigObjectFunc)
 {
@@ -192,13 +184,13 @@ void IObjectFunction::CopyData(const IObjectFunction * pOrigObjectFunc)
     }
 }
 
-/*******************************************************************************
- *
- *  \brief
- *
- *  \history
- *
- ******************************************************************************/
+/******************************************************************************/
+//
+/*! \brief
+ 
+    \history
+ 
+*******************************************************************************/
 inline ObjectFunctionOwner::~ObjectFunctionOwner()
 {
     // For all of the function objects, we need to clear out the funcs.
@@ -210,13 +202,13 @@ inline ObjectFunctionOwner::~ObjectFunctionOwner()
     }
 }
 
-/*******************************************************************************
- *
- *  \brief
- *
- *  \history
- *
- ******************************************************************************/
+/******************************************************************************/
+//
+/*! \brief
+ 
+    \history
+ 
+*******************************************************************************/
 inline
 void ObjectFunctionOwner::AddFunctionObject(IObjectFunction * pClassFunction)
 {
@@ -232,13 +224,13 @@ void ObjectFunctionOwner::AddFunctionObject(IObjectFunction * pClassFunction)
     }
 }
 
-/*******************************************************************************
- *
- *  \brief
- *
- *  \history
- *
- ******************************************************************************/
+/******************************************************************************/
+//
+/*! \brief
+ 
+    \history
+ 
+*******************************************************************************/
 inline void ObjectFunctionOwner::InvalidateFunctionObject(
     const IObjectFunction * pClassFunction)
 {
