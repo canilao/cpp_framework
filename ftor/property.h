@@ -1,13 +1,13 @@
-/*******************************************************************************
- *
- *  \file   property.h 
- *
- *  \brief  Implementation of Property templated class.  This class is used
- *          to manage a piece of data that needs to be monitored for changes.
- *
- *  \note
- *
- ******************************************************************************/
+/******************************************************************************/
+//
+/*! \file   property.h 
+ 
+    \brief  Implementation of Property templated class.  This class is used
+            to manage a piece of data that needs to be monitored for changes.
+ 
+    \note   C Anilao    04/18/2009  Created
+ 
+*******************************************************************************/
 
 #ifndef PROPERTY_H
 #define PROPERTY_H
@@ -16,18 +16,25 @@
 #include "unary_function.h"
 #include "i_object_function.h"
 
+/******************************************************************************/
+//
+/*! \namespace  Ftor
+
+    \brief      Included with the functor namespace.
+
+*******************************************************************************/
 namespace Ftor
 {
-/*******************************************************************************
- *
- *   \class Property 
- *
- *   \brief This class allows a client to moniter when a piece of data is 
- *          modified.  A client can be notifed right before data is written and 
- *          after it is written.  The client can also set a filter to check for
- *          unwanted data that is attempted to be set.
- *
- ******************************************************************************/
+/******************************************************************************/
+//
+/*! \class  Property 
+  
+    \brief  This class allows a client to moniter when a piece of data is 
+            modified.  A client can be notifed right before data is written and 
+            after it is written.  The client can also set a filter to check for
+            unwanted data that is attempted to be set.
+  
+*******************************************************************************/
 template<class TYPE>
 class Property : public ObjectFunctionOwner
 {
