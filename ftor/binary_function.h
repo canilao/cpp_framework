@@ -1,10 +1,11 @@
 /******************************************************************************/
 //
-/*! \file
+/*! \file   binary_funciton.h
   
-    \brief
+    \brief  This defines a function for a funciton object that has two 
+            parameters
   
-    \note
+    \note   C Anilao    04/19/2009  Added header.
   
 *******************************************************************************/
 
@@ -19,18 +20,18 @@
 
 /******************************************************************************/
 //
-/*! \namespace
+/*! \namespace  Ftor
 
-    \brief
+    \brief      Included with the functor namespace.
 
 *******************************************************************************/
 namespace Ftor
 {
 /******************************************************************************/
 //
-/*! \class
+/*! \class  IBinaryFunction
   
-    \brief
+    \brief  Function object interface.  Contains two parameters.
   
 *******************************************************************************/
 template<class RETURN_TYPE, class PARAM_1, class PARAM_2>
