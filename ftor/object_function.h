@@ -1,20 +1,17 @@
-/*******************************************************************************
- *
- *  \file
- *   object_function.h
- *
- *  \brief
- *   Header for concrete object functions.  At this level, the class and the
- *   function pointer is known.  The user only has to supply the types in the
- *   template parameters.  The real purpose at this level in the class heirarchy
- *   is to hold the object pointer and the function pointer.  Developers
- *   are not to use this function in practice.
- *
- *  \note
- *   C Anilao       11/26/2008
- *   Created
- *
- ******************************************************************************/
+/******************************************************************************/
+//
+/*! \file   object_function.h 
+  
+    \brief  Header for concrete object functions.  At this level, the class and 
+            the function pointer is known.  The user only has to supply the 
+            types in the template parameters.  The real purpose at this level 
+            in the class heirarchy is to hold the object pointer and the 
+            function pointer.  Developers are not to use this function in 
+            practice.  
+
+    \note   C Anilao    11/26/2008  Created
+  
+*******************************************************************************/
 
 #ifndef OBJECT_FUNCTION_H
 #define OBJECT_FUNCTION_H
@@ -26,24 +23,22 @@
 // General dependencies.
 #include "i_object_function.h"
 
-/*******************************************************************************
- *
- *  \namespace
- *   Ftor
- *
- *  \brief
- *   Namespace containing the object function library.
- *
- ******************************************************************************/
+/******************************************************************************/
+//
+/*! \namespace  Ftor
+  
+    \brief  Namespace containing the object function library.
+  
+*******************************************************************************/
 namespace Ftor
 {
-/*******************************************************************************
- *
- *  \class
- *
- *  \brief
- *
- ******************************************************************************/
+/******************************************************************************/
+//
+/*! \class
+  
+    \brief
+  
+*******************************************************************************/
 template<class OBJECT_TYPE, class FUNCTION_TYPE_PTR>
 class ObjectFunction : public IObjectFunction
 {
