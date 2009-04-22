@@ -1,12 +1,12 @@
 /******************************************************************************/
 //
 /*! \file   binary_funciton.h
-  
-    \brief  This defines a function for a funciton object that has two 
+
+    \brief  This defines a function for a funciton object that has two
             parameters
-  
+
     \note   C Anilao    04/19/2009  Added header.
-  
+
 *******************************************************************************/
 
 #ifndef BINARY_OBJECT_FUNCTION_H
@@ -30,9 +30,9 @@ namespace Ftor
 /******************************************************************************/
 //
 /*! \class  IBinaryFunction
-  
+
     \brief  Function object interface.  Contains two parameters.
-  
+
 *******************************************************************************/
 template<class RETURN_TYPE, class PARAM_1, class PARAM_2>
 class IBinaryFunction : public IFunction
@@ -55,9 +55,9 @@ public:
 /******************************************************************************/
 //
 /*! \class
-  
+
     \brief
-  
+
 *******************************************************************************/
 template<class OBJECT_TYPE,
          class FUNCTION_TYPE,
@@ -142,9 +142,9 @@ public:
 /******************************************************************************/
 //
 /*! \class
-  
+
     \brief
-  
+
 *******************************************************************************/
 template<class OBJECT_TYPE,
          class RETURN_TYPE,
@@ -182,9 +182,9 @@ public:
 /******************************************************************************/
 //
 /*! \class
-  
+
     \brief
-  
+
 *******************************************************************************/
 template<class OBJECT_TYPE,
          class RETURN_TYPE,
@@ -222,9 +222,9 @@ public:
 /******************************************************************************/
 //
 /*! \class
-  
+
     \brief
-  
+
 *******************************************************************************/
 template<class RETURN_TYPE, class PARAM_1, class PARAM_2>
 
@@ -316,9 +316,9 @@ template <class Signature> class Delegate;
 /******************************************************************************/
 //
 /*! \class
-  
+
     \brief
-  
+
 *******************************************************************************/
 template<class RETURN_TYPE, class PARAM_1, class PARAM_2>
 class Delegate<RETURN_TYPE (PARAM_1, PARAM_2)> :
@@ -365,8 +365,8 @@ public:
     Delegate(OBJECT_TYPE * pObj,
              RETURN_TYPE (OBJECT_TYPE::*pFunc)(PARAM_1, PARAM_2) const)
     {
-        typedef ConstBinaryObjectFactory<OBJECT_TYPE, 
-                                         RETURN_TYPE, 
+        typedef ConstBinaryObjectFactory<OBJECT_TYPE,
+                                         RETURN_TYPE,
                                          PARAM_1,
                                          PARAM_2> TFact;
         TFact fact;
@@ -384,6 +384,15 @@ public:
         // Clean out invalids on Ftor calls.
         this->CleanOutInvalids();
 
+        // Call this constant operator overload.
+        const Delegate<RETURN_TYPE (PARAM_1, PARAM_2)> & obj = *this;
+
+        obj(value_1, value_2);
+    }
+
+    // Operator override.
+    RETURN_TYPE operator()(PARAM_1 value_1, PARAM_2 value_2) const
+    {
         // Throw an error if we are empty.
         if(this->size() == 0) throw ObjectFunctionException();
 

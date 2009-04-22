@@ -1,11 +1,11 @@
 /******************************************************************************/
-// 
+//
 /*! \file
- 
+
     \brief
- 
+
     \note
- 
+
 *******************************************************************************/
 
 #ifndef TERNARY_OBJECT_FUNCTION_H
@@ -18,20 +18,20 @@
 #include "object_function_exception.h"
 
 /******************************************************************************/
-// 
+//
 /*! \namespace  Ftor
- 
+
     \brief  Namespace containing the object function library.
- 
+
 *******************************************************************************/
 namespace Ftor
 {
 /******************************************************************************/
-// 
+//
 /*! \class
- 
+
     \brief
- 
+
 *******************************************************************************/
 template<class RETURN_TYPE, class PARAM_1, class PARAM_2, class PARAM_3>
 class ITernaryFunction : public IFunction
@@ -54,11 +54,11 @@ public:
 };
 
 /******************************************************************************/
-// 
+//
 /*! \class
- 
+
     \brief
- 
+
 *******************************************************************************/
 template<class OBJECT_TYPE,
          class FUNCTION_TYPE,
@@ -147,11 +147,11 @@ public:
 };
 
 /******************************************************************************/
-// 
+//
 /*! \class
- 
+
     \brief
- 
+
 *******************************************************************************/
 template<class OBJECT_TYPE,
          class RETURN_TYPE,
@@ -191,11 +191,11 @@ public:
 };
 
 /******************************************************************************/
-// 
+//
 /*! \class
- 
+
     \brief
- 
+
 *******************************************************************************/
 template<class OBJECT_TYPE,
          class RETURN_TYPE,
@@ -235,11 +235,11 @@ public:
 };
 
 /******************************************************************************/
-// 
+//
 /*! \class
- 
+
     \brief
- 
+
 *******************************************************************************/
 template<class RETURN_TYPE, class PARAM_1, class PARAM_2, class PARAM_3>
 
@@ -333,11 +333,11 @@ private:
 template <class Signature> class Delegate;
 
 /******************************************************************************/
-// 
+//
 /*! \class
- 
+
     \brief
- 
+
 *******************************************************************************/
 template<class RETURN_TYPE,
          class PARAM_1,
@@ -394,9 +394,9 @@ public:
     Delegate(OBJECT_TYPE * pObj,
              RETURN_TYPE (OBJECT_TYPE::*pFunc)(PARAM_1, PARAM_2, PARAM_3) const)
     {
-        typedef ConstTernaryObjectFactory<OBJECT_TYPE, 
-                                          RETURN_TYPE, 
-                                          PARAM_1, 
+        typedef ConstTernaryObjectFactory<OBJECT_TYPE,
+                                          RETURN_TYPE,
+                                          PARAM_1,
                                           PARAM_2,
                                           PARAM_3> TFact;
         TFact fact;
@@ -414,6 +414,17 @@ public:
         // Clean out invalids on Ftor calls.
         this->CleanOutInvalids();
 
+        // Call this constant operator overload.
+        const Delegate<RETURN_TYPE (PARAM_1, PARAM_2, PARAM_3)> & obj = *this;
+
+		obj(value_1, value_2, value_3);
+    }
+
+    // Operator override.
+    RETURN_TYPE operator()(PARAM_1 value_1, 
+                           PARAM_2 value_2,
+                           PARAM_3 value_3) const
+    {
         // Throw an error if we are empty.
         if(this->size() == 0) throw ObjectFunctionException();
 

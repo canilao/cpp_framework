@@ -354,6 +354,14 @@ public:
         // Clean out invalids on Ftor calls.
         this->CleanOutInvalids();
 
+        // Call this constant operator overload.
+        const Delegate<RETURN_TYPE ()> & obj = *this;
+        obj();
+    }
+
+    // Operator override.
+    RETURN_TYPE operator()() const
+    {
         // Throw an error if we are empty.
         if(this->size() == 0) throw ObjectFunctionException();
 
