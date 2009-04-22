@@ -518,7 +518,7 @@ public:
                                     PARAM_5,
                                     PARAM_6)> & obj = *this;
 
-        obj(value_1, value_2, value_3, value_4, value_5, value_6);
+        return obj(value_1, value_2, value_3, value_4, value_5, value_6);
     }
 
     // Operator override.

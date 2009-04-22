@@ -356,7 +356,8 @@ public:
 
         // Call this constant operator overload.
         const Delegate<RETURN_TYPE ()> & obj = *this;
-        obj();
+
+        return obj();
     }
 
     // Operator override.
