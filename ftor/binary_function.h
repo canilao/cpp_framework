@@ -150,6 +150,46 @@ template<class OBJECT_TYPE,
          class RETURN_TYPE,
          class PARAM_1,
          class PARAM_2>
+class ConstBinaryObjectFactory
+{
+public:
+
+    // Function pointer type.
+    typedef RETURN_TYPE (OBJECT_TYPE::*TFuncPtr)(PARAM_1, PARAM_2) const;
+
+    // Binary object function templated type.
+    typedef BinaryObjectFunction<OBJECT_TYPE,
+                                 TFuncPtr,
+                                 RETURN_TYPE,
+                                 PARAM_1,
+                                 PARAM_2> TFuncObj;
+
+public:
+
+    // Constructor.
+    ConstBinaryObjectFactory() {}
+
+    // Destructor.
+    virtual ~ConstBinaryObjectFactory() {}
+
+    // Builds a function object.
+    TFuncObj Create(OBJECT_TYPE * pNewObj, TFuncPtr pNewFunc)
+    {
+        return TFuncObj(pNewObj, pNewFunc);
+    }
+};
+
+/******************************************************************************/
+//
+/*! \class
+  
+    \brief
+  
+*******************************************************************************/
+template<class OBJECT_TYPE,
+         class RETURN_TYPE,
+         class PARAM_1,
+         class PARAM_2>
 class BinaryObjectFactory
 {
 public:
@@ -178,7 +218,6 @@ public:
         return TFuncObj(pNewObj, pNewFunc);
     }
 };
-
 
 /******************************************************************************/
 //
@@ -315,6 +354,21 @@ public:
     {
         typedef BinaryObjectFactory<OBJECT_TYPE, RETURN_TYPE, PARAM_1,
                                     PARAM_2> TFact;
+        TFact fact;
+
+        typename TFact::TFuncObj obj = fact.Create(pObj, pFunc);
+        Add(obj);
+    }
+
+    // Const object function constructor.
+    template<class OBJECT_TYPE>
+    Delegate(OBJECT_TYPE * pObj,
+             RETURN_TYPE (OBJECT_TYPE::*pFunc)(PARAM_1, PARAM_2) const)
+    {
+        typedef ConstBinaryObjectFactory<OBJECT_TYPE, 
+                                         RETURN_TYPE, 
+                                         PARAM_1,
+                                         PARAM_2> TFact;
         TFact fact;
 
         typename TFact::TFuncObj obj = fact.Create(pObj, pFunc);

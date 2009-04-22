@@ -143,6 +143,42 @@ public:
  
 *******************************************************************************/
 template<class OBJECT_TYPE, class RETURN_TYPE, class PARAM_1>
+class ConstUnaryObjectFactory
+{
+public:
+
+    // Function pointer type.
+    typedef RETURN_TYPE (OBJECT_TYPE::*TFuncPtr)(PARAM_1) const;
+
+    // Unary object function templated type.
+    typedef UnaryObjectFunction<OBJECT_TYPE,
+                                TFuncPtr,
+                                RETURN_TYPE,
+                                PARAM_1> TFuncObj;
+
+public:
+
+    // Constructor.
+    ConstUnaryObjectFactory() {}
+
+    // Destructor.
+    virtual ~ConstUnaryObjectFactory() {}
+
+    // Builds a function object.
+    TFuncObj Create(OBJECT_TYPE * pNewObj, TFuncPtr pNewFunc) const
+    {
+        return TFuncObj(pNewObj, pNewFunc);
+    }
+};
+
+/******************************************************************************/
+// 
+/*! \class
+ 
+    \brief
+ 
+*******************************************************************************/
+template<class OBJECT_TYPE, class RETURN_TYPE, class PARAM_1>
 class UnaryObjectFactory
 {
 public:
@@ -296,6 +332,20 @@ public:
     Delegate(OBJECT_TYPE * pObj, RETURN_TYPE (OBJECT_TYPE::*pFunc)(PARAM_1))
     {
         typedef UnaryObjectFactory<OBJECT_TYPE, RETURN_TYPE, PARAM_1> TFact;
+        TFact fact;
+
+        typename TFact::TFuncObj obj = fact.Create(pObj, pFunc);
+        Add(obj);
+    }
+
+    // Const object function constructor.
+    template<class OBJECT_TYPE>
+    Delegate(OBJECT_TYPE * pObj, 
+             RETURN_TYPE (OBJECT_TYPE::*pFunc)(PARAM_1) const)
+    {
+        typedef ConstUnaryObjectFactory<OBJECT_TYPE, 
+                                        RETURN_TYPE, 
+                                        PARAM_1> TFact;
         TFact fact;
 
         typename TFact::TFuncObj obj = fact.Create(pObj, pFunc);

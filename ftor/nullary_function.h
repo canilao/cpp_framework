@@ -1,11 +1,11 @@
 /******************************************************************************/
-// 
+//
 /*! \file
- 
+
     \brief
- 
+
     \note
- 
+
 *******************************************************************************/
 
 #ifndef NULLARY_OBJECT_FUNCTION_H
@@ -18,20 +18,20 @@
 #include "object_function_exception.h"
 
 /******************************************************************************/
-// 
+//
 /*! \namespace  Ftor
- 
+
     \brief  Namespace containing the object function library.
- 
+
 *******************************************************************************/
 namespace Ftor
 {
 /******************************************************************************/
-// 
+//
 /*! \class
- 
+
     \brief
- 
+
 *******************************************************************************/
 template<class RETURN_TYPE>
 class INullaryFunction : public IFunction
@@ -52,11 +52,11 @@ public:
 };
 
 /******************************************************************************/
-// 
+//
 /*! \class
- 
+
     \brief
- 
+
 *******************************************************************************/
 template<class OBJECT_TYPE,
          class FUNCTION_TYPE,
@@ -134,11 +134,46 @@ public:
 };
 
 /******************************************************************************/
-// 
+//
 /*! \class
- 
+
     \brief
- 
+
+*******************************************************************************/
+template<class OBJECT_TYPE, class RETURN_TYPE>
+class ConstNullaryObjectFactory
+{
+public:
+
+    // Function pointer type.
+    typedef RETURN_TYPE (OBJECT_TYPE::*TFuncPtr)() const;
+
+    // Nullary object function templated type.
+    typedef NullaryObjectFunction<OBJECT_TYPE,
+                                  TFuncPtr,
+                                  RETURN_TYPE> TFuncObj;
+
+public:
+
+    // Constructor.
+    ConstNullaryObjectFactory() {}
+
+    // Destructor.
+    virtual ~ConstNullaryObjectFactory() {}
+
+    // Builds a function object.
+    TFuncObj Create(OBJECT_TYPE * pNewObj, TFuncPtr pNewFunc) const
+    {
+        return TFuncObj(pNewObj, pNewFunc);
+    }
+};
+
+/******************************************************************************/
+//
+/*! \class
+
+    \brief
+
 *******************************************************************************/
 template<class OBJECT_TYPE, class RETURN_TYPE>
 class NullaryObjectFactory
@@ -169,11 +204,11 @@ public:
 };
 
 /******************************************************************************/
-// 
+//
 /*! \class
- 
+
     \brief
- 
+
 *******************************************************************************/
 template<class RETURN_TYPE>
 class NullaryStaticFunction : public INullaryFunction<RETURN_TYPE>
@@ -256,11 +291,11 @@ private:
 template <class Signature> class Delegate;
 
 /******************************************************************************/
-// 
+//
 /*! \class
- 
+
     \brief
- 
+
 *******************************************************************************/
 template<class RETURN_TYPE>
 class Delegate<RETURN_TYPE ()> :
@@ -293,6 +328,17 @@ public:
     Delegate(OBJECT_TYPE * pObj, RETURN_TYPE (OBJECT_TYPE::*pFunc)())
     {
         typedef NullaryObjectFactory<OBJECT_TYPE, RETURN_TYPE> TFact;
+        TFact fact;
+
+        typename TFact::TFuncObj obj = fact.Create(pObj, pFunc);
+        Add(obj);
+    }
+
+    // Constant object function constructor.
+    template<class OBJECT_TYPE>
+    Delegate(OBJECT_TYPE * pObj, RETURN_TYPE (OBJECT_TYPE::*pFunc)() const)
+    {
+        typedef ConstNullaryObjectFactory<OBJECT_TYPE, RETURN_TYPE> TFact;
         TFact fact;
 
         typename TFact::TFuncObj obj = fact.Create(pObj, pFunc);
