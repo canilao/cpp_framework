@@ -26,7 +26,7 @@
 #define CORE_UNITS_TO_ONE_MILLISECOND 1ULL
 
 // The number of decimal points needed to represent the core unit accurately.
-#define TIME_PRECISION 5u
+#define TIME_PRECISION 4u
 
 namespace numeric
 {
