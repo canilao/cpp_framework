@@ -19,7 +19,7 @@
 #include <exception>
 
 // Maximum precision a long long can hold.
-#define MAX_PRECISION 17
+#define MAX_PRECISION 17ul
 
 namespace numeric
 {
