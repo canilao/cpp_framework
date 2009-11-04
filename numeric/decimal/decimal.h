@@ -52,6 +52,20 @@ private:
         return testNumber != testNumber;
     }
 
+    // Set the data variable using the minimum and maximum bounds.
+    void SetData(TData newData)
+    {
+        if(newData > this->GetMaxValue() ||
+           newData < this->GetMinValue() )
+        {
+            // If we throw an exception here, we over/underflowed.
+            throw std::exception();
+        }
+
+        // It's safe to set the data if the value was in range.
+        data = newData;
+    }
+
 public:
 
     // Default constructor.
@@ -73,7 +87,7 @@ public:
 
         // Move the decimal point so that the desired number becomes a integer.
         // The decimal point is moved over on more point for rounding purposes.
-        data = (TData) (number * pow(10.0, (double) (PRECISION + 1)));
+        SetData((TData) (number * pow(10.0, (double) (PRECISION + 1))));
 
         // Calculate the sign.  Do not divide by zero.
         TData sign = 0;
@@ -91,13 +105,13 @@ public:
         // back).  Then we put that number in a integer and this will
         // effectively removed the decimal point at we will end up with an 11.
         // Note that 11 is the rounded value for 10.6.
-        data = sign * (((TData) fabs((double) data) + 5) / 10);
+        SetData(sign * (((TData) fabs((double) data) + 5) / 10));
     }
 
     // Destructor.
     ~decimal() {}
 
-    // Calculates the maximum whole number that this class can hold.
+    // Calculates the maximum inclusive whole number that this class can hold.
     static TData GetMaxValue()
     {
         // Slides the value of LLONG_MAX to the right so that the decimal
@@ -118,7 +132,7 @@ public:
         return LLONG_MAX / (long long) pow(10.0, (double) (PRECISION + 1));
     }
 
-    // Calculate the minimum value this class can hold.
+    // Calculate the inclusive minimum value this class can hold.
     static TData GetMinValue()
     {
         // Slides the value of LLONG_MAX to the right so that the decimal
@@ -198,7 +212,7 @@ public:
     {
         // Create a return object and set the data.
         decimal<PRECISION> retObj;
-        retObj.data = data + rhs.data;
+        retObj.SetData(data + rhs.data);
         return retObj;
     }
 
@@ -207,7 +221,7 @@ public:
     {
         // Create a return object and set the data.
         decimal<PRECISION> retObj;
-        retObj.data = data - rhs.data;
+        retObj.SetData(data - rhs.data);
         return retObj;
     }
 
@@ -229,7 +243,7 @@ public:
     decimal<PRECISION> & operator=(const decimal<PRECISION> & rhs)
     {
         // Set the data and return a reference to ourself.
-        data = rhs.data;
+        SetData(rhs.data);
         return *this;
     }
 
