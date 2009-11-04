@@ -28,7 +28,6 @@
 // General Depedencies.
 #include "unit.h"
 
-
 // This defines how many coredata units makes one millimeter.
 #define CORE_UNITS_TO_ONE_MM 10000ULL
 
