@@ -43,6 +43,15 @@ private:
     // The core data member.
     TData data;
 
+private:
+
+    // IEEE states for a float f, f != f will be true only if f is NaN.
+    bool IsNaN(long double number) const
+    {
+        volatile double testNumber = number;
+        return testNumber != testNumber;
+    }
+
 public:
 
     // Default constructor.
@@ -141,6 +150,10 @@ public:
 
         // Calculate the +/- sign.
         long double sign = fabs(result) / result;
+        if(IsNaN(sign))
+        {
+            sign = 0.0L;
+        }
 
         // Result value slided to the left for rounding.
         result *= (long double) pow(10.0, (double) (PRECISION + 1));
@@ -164,6 +177,10 @@ public:
 
         // Calculate the +/- sign.
         long double sign = fabs(result) / result;
+        if(IsNaN(sign))
+        {
+            sign = 0.0L;
+        }
 
         // Result value slided to the left for rounding.
         result *= (long double) pow(10.0, (double) (PRECISION + 1));
