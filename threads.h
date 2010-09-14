@@ -8,4 +8,7 @@
  
 *******************************************************************************/ 
 
-// Include for all thread headers.
+// Include for all windows thread headers.
+#ifdef _WIN32
+   #include "threads/winthreads/synchronization.h"
+#endif
