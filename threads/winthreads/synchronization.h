@@ -40,6 +40,15 @@
 
 /******************************************************************************/
 //
+/*! \namespace  Ftor
+
+    \brief      Included with the functor namespace.
+
+*******************************************************************************/
+namespace WinThread
+{
+/******************************************************************************/
+//
 /*! \class  Mutex
 
     \brief  It is equivalent to the CRITICAL_SECTION object.  To use, just 
@@ -114,3 +123,4 @@ private:
    // Mutex passed in the constructor.
    Mutex & _mutex;
 };
+}
