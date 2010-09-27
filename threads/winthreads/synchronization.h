@@ -37,6 +37,7 @@
 #pragma once
 
 #include <windows.h>
+#include <exception>
 
 /******************************************************************************/
 //
@@ -70,6 +71,8 @@ public:
    // Destructor.
    ~Mutex () 
    { 
+      if(!IsCriticalSectionValid()) throw std::exception("Destructor Failed.");
+
       DeleteCriticalSection (& _critSection); 
    }
 
@@ -78,13 +81,27 @@ private:
    // This is called when the critical section is needed to be locked.
    void Acquire ()
    {
+      if(!IsCriticalSectionValid()) throw std::exception("Acquire Failed.");
+      
       EnterCriticalSection (& _critSection);
    }
 
    // This is called when the critical section is needed to be released.
    void Release ()
    {
+      if(!IsCriticalSectionValid()) throw std::exception("Release Failed.");
+
       LeaveCriticalSection (& _critSection);
+   }
+
+   // Checks to see if the critical section is valid.
+   bool IsCriticalSectionValid()
+   {
+      CRITICAL_SECTION testMem;
+
+      memset(&testMem, 0, sizeof(testMem));
+      
+      return memcmp(&testMem, & _critSection, sizeof(testMem)) != 0;
    }
 
    CRITICAL_SECTION _critSection;
