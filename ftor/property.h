@@ -63,7 +63,7 @@ public:
     // Destructor.
     virtual ~Property() {}
 
-    // Decimal number assignment operator overload.
+    // Assignment operator overload.
     void operator=(const TYPE & rhs)
     {
         if(pre_change_delegate.IsValid())
