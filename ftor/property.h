@@ -63,8 +63,8 @@ public:
     // Destructor.
     virtual ~Property() {}
 
-    // Assignment operator overload.
-    void operator=(const TYPE & rhs)
+    // Decimal number assignment operator overload.
+    const TYPE operator=(const TYPE & rhs)
     {
         if(pre_change_delegate.IsValid())
             pre_change_delegate(rhs);
@@ -76,6 +76,8 @@ public:
 
         if(post_change_delegate.IsValid())
             post_change_delegate(data);
+
+        return data;
     }
 
     // Conversion operator overload.
