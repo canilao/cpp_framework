@@ -176,8 +176,12 @@ public:
         // Slide back to the right to truncate unneeded information.
         result /= 10.0L;
 
-        // Construct a new object with our result and return it.
-        return decimal<PRECISION>(result);
+        // Construct a new object with our result.
+        decimal<PRECISION> retObj;
+        retObj.SetData((TData) result);
+
+        // Return the new object.
+        return retObj;
     }
 
     // Division between this object and a object of the same type.
@@ -203,8 +207,12 @@ public:
         // Slide back to the right to truncate unneeded information.
         result /= 10.0L;
 
-        // Construct a new object with our result and return it.
-        return decimal<PRECISION>(result);
+        // Construct a new object with our result.
+        decimal<PRECISION> retObj;
+        retObj.SetData((TData) result);
+
+        // Return the new object.
+        return retObj;
     }
 
     // Addition between this object and another like object.
